@@ -5,8 +5,8 @@ project_dir=${project_dir:-"bosh-lites"}
 
 boss_lite_repo=${boss_lite_repo:-"https://github.com/cloudfoundry-community/boss-lite.git"}
 boss_lite_branch=${boss_lite_branch:-"master"}
-bosh_lite_repo=${boss_lite_repo:-"https://github.com/cloudfoundry/bosh-lite.git"}
-bosh_lite_branch=${boss_lite_branch:-"master"}
+bosh_lite_repo=${bosh_lite_repo:-"https://github.com/cloudfoundry/bosh-lite.git"}
+bosh_lite_branch=${bosh_lite_branch:-"master"}
 
 set -e
 
