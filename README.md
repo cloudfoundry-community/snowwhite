@@ -11,7 +11,7 @@ This project is two things:
 Requirements
 ------------
 
--	http://direnv.net/
+-	http://direnv.net/ to add the `boss-lite` helper CLI into the `$PATH`
 
 Installation
 ------------
