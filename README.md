@@ -8,6 +8,14 @@ This project is two things:
 1.	generator of a new scaffold for your bosh-lites
 2.	set of scripts to create/update/cleanup bosh-lites
 
+Requirements
+------------
+
+-	http://direnv.net/
+
+Installation
+------------
+
 To get started, run the following command in your work folder to generate a new scaffold:
 
 ```
