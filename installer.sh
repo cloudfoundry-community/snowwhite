@@ -10,11 +10,17 @@ set -e
 
 mkdir $project_dir
 cd $project_dir
-cat > README.md <<EOS
-# bosh-lites
-
-EOS
+touch .gitigore
 git init
 git add .
-git commit -m "initial scaffold"
+git commit -m "initial repo"
 git subtree add --prefix boss-lite $boss_lite_repo $boss_lite_branch --squash
+
+if [[ "${LOCAL_SCAFFOLD}X" == "X" ]]; then
+  cp -r boss-lite/scaffold/* .
+else
+  cp -r ${LOCAL_SCAFFOLD}/* .
+fi
+
+git add .
+git commit -m "initial scaffold for boss-lite project"
