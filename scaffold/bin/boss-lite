@@ -1,3 +1,18 @@
 #!/bin/bash
 
-echo This is the parent script for all helper commands
+# This is the parent script for all helper commands
+
+boss_lite_repo=${boss_lite_repo:-"https://github.com/cloudfoundry-community/boss-lite.git"}
+boss_lite_branch=${boss_lite_branch:-"master"}
+
+update() {
+  git subtree pull --prefix boss-lite $boss_lite_repo $boss_lite_branch --squash \
+    -m "Update boss-lite scripts"
+}
+
+if [[ $1 =~ ^(update)$ ]]; then
+  "$@"
+else
+  echo "Invalid subcommand: $1 - available: update" >&2
+  exit 1
+fi
