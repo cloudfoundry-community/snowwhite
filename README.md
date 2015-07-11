@@ -32,3 +32,14 @@ cd ~/workspace
 ```
 
 You will be prompted for your organization's AWS credentials and the target `subnet_id` where each bosh-lite VM is deployed (press `Enter` to deploy into EC2 rather than a VPC subnet).
+
+Upgrades
+--------
+
+As new features/scripts/bug fixes are added to this `boss-lite` repository, your own `bosh-lites` project folder can easily update the scripts:
+
+```
+boss-lite update
+```
+
+This invokes the correct `git subtree pull` to update the `boss-lite` subfolder in your project.
