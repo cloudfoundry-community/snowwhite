@@ -11,7 +11,7 @@ This project is two things:
 To get started, run the following command in your work folder to generate a new scaffold:
 
 ```
-curl https://raw.github.com/cloudfoundry-community/boss-lite/installer.sh | bash
+curl https://raw.githubusercontent.com/cloudfoundry-community/boss-lite/master/installer.sh | bash
 ```
 
 Or clone this repo somewhere, then invoke the installer script from the folder where you want to create a new scaffold to store all your bosh-lite work folders:
