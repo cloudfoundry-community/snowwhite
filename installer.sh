@@ -25,7 +25,9 @@ set -e
 
 mkdir $project_dir
 cd $project_dir
-touch .gitigore
+mkdir sshkeys
+chmod 700 sshkeys
+touch sshkeys/.gitkeep
 git init
 git add .
 git commit -m "initial repo"
