@@ -17,6 +17,7 @@ new() {
     echo "USAGE: boss-lite new NAME"
     exit 1
   fi
+  shift
   path=${base_path}/${name}
   mkdir -p ${path}
   cp bosh-lite/Vagrantfile ${path}/
@@ -37,9 +38,16 @@ destroy() {
     echo "USAGE: boss-lite destroy NAME"
     exit 1
   fi
+  shift
   path=${base_path}/${name}
-  cd ${path}
+  if [[ ! -d ${path} ]]; then
+    echo "USAGE: boss-lite destroy NAME"
+    exit 1
+  fi
+  pushd ${path}
   vagrant destroy $@
+  popd
+  rm -rf ${path}
 }
 
 update() {
