@@ -35,6 +35,7 @@ new() {
   mkdir -p ${path}
   cp bosh-lite/Vagrantfile ${path}/
   cp .envrc ${path}/
+  ln -s ../../sshkeys ${path}/sshkeys
   cd ${path}
   direnv allow
   vagrant up --provider=aws
