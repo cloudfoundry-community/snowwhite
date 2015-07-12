@@ -67,17 +67,15 @@ $ bosh targets
 ### Destroy bosh-lite
 
 ```
-
 boss-lite destroy drnic [-f]
-
 ```
 
 ### Upgrades
 
 As new features/scripts/bug fixes are added to this `boss-lite` repository, your own `bosh-lites` project folder can easily update the scripts:
 
-\`\`\`
-
-boss-lite update\`\`\`
+```
+boss-lite update
+```
 
 This invokes the correct `git subtree pull` to update the `boss-lite` subfolder in your project.
