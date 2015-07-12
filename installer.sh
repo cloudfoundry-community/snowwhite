@@ -32,6 +32,7 @@ git subtree add --prefix bosh-lite $bosh_lite_repo $bosh_lite_branch --squash
 
 if [[ "${LOCAL_SCAFFOLD}X" == "X" ]]; then
   cp -r boss-lite/scaffold/* .
+  cp -r boss-lite/scaffold/.envrc .
 else
   cp -r ${LOCAL_SCAFFOLD}/ .
 fi
