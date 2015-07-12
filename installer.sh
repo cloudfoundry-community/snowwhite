@@ -27,3 +27,12 @@ fi
 
 git add .
 git commit -m "initial scaffold for boss-lite project"
+
+echo
+echo "NEXT: please edit .envrc with AWS credentials, keys, etc"
+echo
+echo "READ: the following document for using bosh-lite with AWS"
+echo https://github.com/cloudfoundry/bosh-lite/blob/master/docs/aws-provider.md
+echo
+echo "NOTE: this is a PRIVATE repository that has your AWS credentials in it"
+echo
