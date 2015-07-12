@@ -11,6 +11,7 @@ This project is two things:
 Requirements
 ------------
 
+-	Ruby to run `bosh` CLI, and `bundler` rubygem
 -	http://vagrantup.com/ to provision AWS bosh-lite
 -	Vagrant AWS plugin
 

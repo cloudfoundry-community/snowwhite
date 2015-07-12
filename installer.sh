@@ -38,6 +38,8 @@ else
   cp -r ${LOCAL_SCAFFOLD}/ .
 fi
 
+bundle install
+
 git add .
 git commit -m "initial scaffold for boss-lite project"
 
