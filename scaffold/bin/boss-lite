@@ -12,7 +12,7 @@ bosh_lite_branch=${bosh_lite_branch:-"master"}
 base_path="deployments"
 
 new() {
-  name=$1; shift
+  name=$1
   if [[ "${name}X" == "X" ]]; then
     echo "USAGE: boss-lite new NAME"
     exit 1
@@ -31,6 +31,17 @@ new() {
   bosh -t ${name} upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 }
 
+destroy() {
+  name=$1
+  if [[ "${name}X" == "X" ]]; then
+    echo "USAGE: boss-lite destroy NAME"
+    exit 1
+  fi
+  path=${base_path}/${name}
+  cd ${path}
+  vagrant destroy $@
+}
+
 update() {
   git subtree pull --prefix boss-lite $boss_lite_repo $boss_lite_branch --squash \
     -m "Update boss-lite scripts"
@@ -38,9 +49,9 @@ update() {
     -m "Update bosh-lite scripts"
 }
 
-if [[ $1 =~ ^(new|update)$ ]]; then
+if [[ $1 =~ ^(new|destroy|update)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, update" >&2
+  echo "Invalid subcommand: $1 - available: new, destroy, update" >&2
   exit 1
 fi
