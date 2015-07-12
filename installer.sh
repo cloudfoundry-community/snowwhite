@@ -25,12 +25,8 @@ set -e
 
 mkdir $project_dir
 cd $project_dir
-mkdir sshkeys
-chmod 700 sshkeys
-touch sshkeys/.gitkeep
-git init
-git add .
-git commit -m "initial repo"
+mkdir sshkeys; chmod 700 sshkeys; touch sshkeys/.gitkeep
+git init; git add .; git commit -m "initial repo"
 git subtree add --prefix boss-lite $boss_lite_repo $boss_lite_branch --squash
 git subtree add --prefix bosh-lite $bosh_lite_repo $bosh_lite_branch --squash
 
