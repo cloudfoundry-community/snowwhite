@@ -65,6 +65,14 @@ $ bosh targets
 +--------------------------------------+------------------------------+
 ```
 
+### List bosh-lites
+
+To get a list of available bosh-lites:
+
+```
+boss-lite list
+```
+
 ### SSH into bosh-lite and into deployment vms
 
 In order to SSH into your BOSH deployment VMs, you first need to SSH into the bosh-lite VM itself on AWS.

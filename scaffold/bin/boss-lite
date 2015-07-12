@@ -48,6 +48,18 @@ new() {
   bosh -t ${name} upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 }
 
+deployments() {
+  if [[ -d deployments ]]; then
+    ls deployments
+  else
+    echo
+  fi
+}
+
+list() {
+  deployments
+}
+
 ssh() {
   checkenv
   name=$1
@@ -89,9 +101,9 @@ update() {
   git commit -m "update boss-lite CLI"
 }
 
-if [[ $1 =~ ^(new|ssh|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|list|deployments|ssh|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, ssh, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, list, ssh, destroy, update" >&2
   exit 1
 fi
