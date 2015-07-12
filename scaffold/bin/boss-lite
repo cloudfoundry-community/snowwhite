@@ -98,7 +98,7 @@ update() {
     -m "Update bosh-lite scripts"
 
   cp boss-lite/scaffold/bin/* bin/
-  git commit -m "update boss-lite CLI"
+  git commit -a -m "update boss-lite CLI"
 }
 
 if [[ $1 =~ ^(new|list|deployments|ssh|destroy|update|checkenv)$ ]]; then
