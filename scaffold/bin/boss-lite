@@ -2,6 +2,8 @@
 
 # This is the parent script for all helper commands
 
+set -e
+
 boss_lite_repo=${boss_lite_repo:-"https://github.com/cloudfoundry-community/boss-lite.git"}
 boss_lite_branch=${boss_lite_branch:-"master"}
 bosh_lite_repo=${bosh_lite_repo:-"https://github.com/cloudfoundry/bosh-lite.git"}
@@ -19,6 +21,14 @@ new() {
   mkdir -p ${path}
   cp bosh-lite/Vagrantfile ${path}/
   cp .envrc ${path}/
+  cd ${path}
+  direnv allow
+  vagrant up --provider=aws
+
+  IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
+  set -x
+  yes admin | bosh target ${IP} ${name}
+  bosh -t ${name} upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 }
 
 update() {
