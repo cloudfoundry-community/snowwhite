@@ -15,6 +15,12 @@ fi
 if [[ "${missing_requirements}" == "1" ]]; then
   exit 1
 fi
+if [[ "$(vagrant -v)" != "Vagrant 1.6.5" ]]; then
+  echo "WEIRD BUT TRUE: You must use Vagrant 1.6.5"
+  echo "Learn more: https://github.com/cloudfoundry/bosh-lite/issues/235"
+  echo "Download: https://www.vagrantup.com/download-archive/v1.6.5.html"
+  exit 1
+fi
 
 boss_lite_repo=${boss_lite_repo:-"https://github.com/cloudfoundry-community/boss-lite.git"}
 boss_lite_branch=${boss_lite_branch:-"master"}
