@@ -7,6 +7,20 @@ boss_lite_branch=${boss_lite_branch:-"master"}
 bosh_lite_repo=${bosh_lite_repo:-"https://github.com/cloudfoundry/bosh-lite.git"}
 bosh_lite_branch=${bosh_lite_branch:-"master"}
 
+base_path="deployments"
+
+new() {
+  name=$1; shift
+  if [[ "${name}X" == "X" ]]; then
+    echo "USAGE: boss-lite new NAME"
+    exit 1
+  fi
+  path=${base_path}/${name}
+  mkdir -p ${path}
+  cp bosh-lite/Vagrantfile ${path}/
+  cp .envrc ${path}/
+}
+
 update() {
   git subtree pull --prefix boss-lite $boss_lite_repo $boss_lite_branch --squash \
     -m "Update boss-lite scripts"
@@ -14,9 +28,9 @@ update() {
     -m "Update bosh-lite scripts"
 }
 
-if [[ $1 =~ ^(update)$ ]]; then
+if [[ $1 =~ ^(new|update)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: update" >&2
+  echo "Invalid subcommand: $1 - available: new, update" >&2
   exit 1
 fi

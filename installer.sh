@@ -41,9 +41,6 @@ fi
 git add .
 git commit -m "initial scaffold for boss-lite project"
 
-vagrant plugin install vagrant-aws
-
-
 echo
 echo "NEXT: please edit .envrc with AWS credentials, keys, etc"
 echo

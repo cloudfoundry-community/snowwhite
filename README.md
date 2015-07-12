@@ -12,6 +12,12 @@ Requirements
 ------------
 
 -	http://vagrantup.com/ to provision AWS bosh-lite
+-	Vagrant AWS plugin
+
+	```
+	vagrant plugin install vagrant-aws
+	```
+
 -	http://direnv.net/ to add the `boss-lite` helper CLI into the `$PATH`
 
 Installation
