@@ -11,6 +11,7 @@ This project is two things:
 Requirements
 ------------
 
+-	http://vagrantup.com/ to provision AWS bosh-lite
 -	http://direnv.net/ to add the `boss-lite` helper CLI into the `$PATH`
 
 Installation
