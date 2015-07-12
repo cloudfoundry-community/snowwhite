@@ -39,8 +39,24 @@ cd ~/workspace
 /tmp/boss-lite/installer.sh
 ```
 
-Upgrades
---------
+All subsequent operations are performed within the generated project.
+
+Usage
+-----
+
+### New bosh-lite
+
+```
+boss-lite new <name>
+```
+
+### Destroy bosh-lite
+
+```
+boss-lite destroy <name> [-f]
+```
+
+### Upgrades
 
 As new features/scripts/bug fixes are added to this `boss-lite` repository, your own `bosh-lites` project folder can easily update the scripts:
 
