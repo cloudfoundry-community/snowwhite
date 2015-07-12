@@ -64,6 +64,19 @@ $ bosh targets
 +--------------------------------------+------------------------------+
 ```
 
+### SSH into bosh-lite and into deployment vms
+
+In order to SSH into your BOSH deployment VMs, you first need to SSH into the bosh-lite VM itself on AWS.
+
+Why? If you are used to using bosh-lite on your laptop then you will be familiar with `bin/add-routes` which let you `bosh ssh` into the bosh-lite warden containers from your laptop. Unfortunately this trick doesn't work if the bosh-lite VM is remote - such as AWS - such as we are doing.
+
+So to SSH into containers:
+
+1.	`boss-lite ssh <name>`; and then inside the bosh-lite host VM:
+2.	`bosh download manifest <deployment> <deployment>.yml`
+3.	`bosh deployment <deployment>.yml`
+4.	`bosh ssh`
+
 ### Destroy bosh-lite
 
 ```
