@@ -38,6 +38,8 @@ new() {
   ln -s ../../sshkeys ${path}/sshkeys
   cd ${path}
   direnv allow
+
+  export BOSH_LITE_NAME="bosh-lite-${name}"
   vagrant up --provider=aws
 
   IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
