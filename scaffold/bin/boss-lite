@@ -11,7 +11,20 @@ bosh_lite_branch=${bosh_lite_branch:-"master"}
 
 base_path="deployments"
 
+checkenv() {
+  if [[ ! -f ${BOSH_LITE_PRIVATE_KEY} ]]; then
+    echo "\$BOSH_LITE_PRIVATE_KEY does not exist: $BOSH_LITE_PRIVATE_KEY"
+    exit 1
+  fi
+  relative_private_key="${PWD}/${BOSH_LITE_PRIVATE_KEY##${PWD}}"
+  if [[ ! -f ${relative_private_key} ]]; then
+    echo "\$BOSH_LITE_PRIVATE_KEY is not within this project: $BOSH_LITE_PRIVATE_KEY"
+    exit 1
+  fi
+}
+
 new() {
+  checkenv
   name=$1
   if [[ "${name}X" == "X" ]]; then
     echo "USAGE: boss-lite new NAME"
@@ -57,7 +70,7 @@ update() {
     -m "Update bosh-lite scripts"
 }
 
-if [[ $1 =~ ^(new|destroy|update)$ ]]; then
+if [[ $1 =~ ^(new|destroy|update|checkenv)$ ]]; then
   "$@"
 else
   echo "Invalid subcommand: $1 - available: new, destroy, update" >&2
