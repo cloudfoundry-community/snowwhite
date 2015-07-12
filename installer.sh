@@ -41,6 +41,7 @@ fi
 git add .
 git commit -m "initial scaffold for boss-lite project"
 
+vagrant plugin install vagrant-aws
 
 
 echo

@@ -32,8 +32,6 @@ cd ~/workspace
 /tmp/boss-lite/installer.sh
 ```
 
-You will be prompted for your organization's AWS credentials and the target `subnet_id` where each bosh-lite VM is deployed (press `Enter` to deploy into EC2 rather than a VPC subnet).
-
 Upgrades
 --------
 
