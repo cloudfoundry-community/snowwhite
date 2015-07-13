@@ -64,6 +64,23 @@ list() {
   deployments
 }
 
+# bosh target <ip> <name>
+target() {
+  checkenv
+  name=$1
+  if [[ "${name}X" == "X" ]]; then
+    echo "USAGE: boss-lite new NAME"
+    exit 1
+  fi
+  shift
+  path=${base_path}/${name}
+  cd ${path}
+
+  IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
+  set -x
+  bosh target ${IP} ${name}
+}
+
 ssh() {
   checkenv
   name=$1
@@ -105,9 +122,9 @@ update() {
   git commit -a -m "update boss-lite CLI"
 }
 
-if [[ $1 =~ ^(new|list|deployments|ssh|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|target|list|deployments|ssh|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, list, ssh, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, target, list, ssh, destroy, update" >&2
   exit 1
 fi
