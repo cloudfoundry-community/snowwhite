@@ -18,3 +18,16 @@ boss-lite update
 ```
 
 Read the [Usage instructions](https://github.com/cloudfoundry-community/boss-lite#usage) for more information; especially after updating.
+
+Global CLI
+----------
+
+You can use the `boss-lite` CLI from anywhere if you add this project's `bin` into your `$PATH`.
+
+Add the following into your `~/.bashrc` or `~/.zshrc`, etc:
+
+```
+export PATH=$PATH:/path/to/bosh-lites/bin
+```
+
+And restart your session.
