@@ -8,6 +8,14 @@ if [[ "$(which vagrant)X" == "X" ]]; then
   echo "MISSING: install https://www.vagrantup.com/"
   missing_requirements=1
 fi
+if [[ "$(vagrant plugin list | grep aws)X" == "X" ]]; then
+  echo "Installing AWS provider plugin"
+  vagrant plugin install vagrant-aws
+fi
+if [[ "$(vagrant box list | grep cloudfoundry/bosh-lite | grep aws)X" == "X" ]]; then
+  echo "Installing cloufoundry/bosh-lite required for AWS provider"
+  vagrant box add --provider aws cloudfoundry/bosh-lite
+fi
 if [[ "$(which direnv)X" == "X" ]]; then
   echo "MISSING: install http://direnv.net/"
   missing_requirements=1
