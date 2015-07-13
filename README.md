@@ -70,6 +70,19 @@ $ bosh targets
 +--------------------------------------+------------------------------+
 ```
 
+### Target a bosh-lite
+
+```
+boss-lite target drnic
+```
+
+The output might look like:
+
+```
++ bosh target 54.147.193.212 drnic
+Target set to `Bosh Lite Director'
+```
+
 ### List bosh-lites
 
 To get a list of available bosh-lites:
