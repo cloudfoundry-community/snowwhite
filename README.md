@@ -3,6 +3,11 @@ boss-lite
 
 Manage multiple [bosh-lite](https://github.com/cloudfoundry/bosh-lite/) deployments (running on AWS, not just one on your laptop) for your entire organization. Who's the boss? You're the boss. And that person over there.
 
+This project is very handy when you:
+
+-	Have multiple team mates sharing one or more bosh-lite running on AWS
+-	Have a need to easily spin up (and destroy) bosh-lite on AWS
+
 This project is two things:
 
 1.	generator of a new scaffold for your bosh-lites
