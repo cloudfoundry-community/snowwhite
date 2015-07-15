@@ -82,6 +82,23 @@ list() {
   deployments
 }
 
+status() {
+  checkenv
+  name=$1
+  if [[ "${name}X" == "X" ]]; then
+    for path in deployments/*; do
+      [ -d "${path}" ] || continue # if not a directory, skip
+      echo Checking $(basename ${path})
+      cd ${path}
+      vagrant status
+      cd -
+    done
+  else
+    cd deployments/${name}
+    vagrant status
+  fi
+}
+
 # bosh target <ip> <name>
 target() {
   checkenv
@@ -145,9 +162,9 @@ update() {
   git commit -a -m "update boss-lite CLI"
 }
 
-if [[ $1 =~ ^(new|target|list|deployments|ssh|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|target|list|status|deployments|ssh|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, target, list, ssh, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, target, list, status, ssh, destroy, update" >&2
   exit 1
 fi
