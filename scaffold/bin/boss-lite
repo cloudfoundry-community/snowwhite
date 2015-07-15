@@ -60,7 +60,7 @@ new() {
 
   vagrant ssh -c 'sudo chown -R ubuntu ~/.bosh_config ~/tmp; ssh-keygen -N "" -f "/home/ubuntu/.ssh/id_rsa" '
 
-  git add deployments/${name}
+  git add .
   git commit -a -m "[${name}] New bosh-lite added"
   git push origin master
 
