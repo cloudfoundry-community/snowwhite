@@ -27,8 +27,20 @@ checkenv() {
   fi
 }
 
+checkgit() {
+  if [[ "$(git config --global user.name)X" == "X" ]]; then
+    echo -n "Enter your name (for git commits): "; read git_user_name
+    git config --global user.name "$git_user_name"
+  fi
+  if [[ "$(git config --global user.email)X" == "X" ]]; then
+    echo -n "Enter your email (for git commits): "; read git_user_email
+    git config --global user.email $git_user_email
+  fi
+}
+
 new() {
   checkenv
+  checkgit
   name=$1
   if [[ "${name}X" == "X" ]]; then
     echo "USAGE: boss-lite new NAME"
@@ -45,6 +57,9 @@ new() {
 
   export BOSH_LITE_NAME="bosh-lite-${name}"
   vagrant up --provider=aws
+
+  git commit -a -m "[${name}] New bosh-lite added"
+  git push origin master
 
   IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
   set -x
@@ -95,6 +110,8 @@ ssh() {
 }
 
 destroy() {
+  checkenv
+  checkgit
   name=$1
   if [[ "${name}X" == "X" ]]; then
     echo "USAGE: boss-lite destroy NAME"
@@ -109,7 +126,10 @@ destroy() {
   pushd ${path}
   vagrant destroy $@
   popd
+
   rm -rf ${path}
+  git commit -a -m "[${name}] bosh-lite destroyed"
+  git push origin master
 }
 
 update() {
