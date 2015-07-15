@@ -58,6 +58,7 @@ new() {
   export BOSH_LITE_NAME="bosh-lite-${name}"
   vagrant up --provider=aws
 
+  git add deployments/${name}
   git commit -a -m "[${name}] New bosh-lite added"
   git push origin master
 
@@ -127,7 +128,7 @@ destroy() {
   vagrant destroy $@
   popd
 
-  rm -rf ${path}
+  git rm -rf ${path}
   git commit -a -m "[${name}] bosh-lite destroyed"
   git push origin master
 }
