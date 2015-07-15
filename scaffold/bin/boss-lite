@@ -58,6 +58,8 @@ new() {
   export BOSH_LITE_NAME="bosh-lite-${name}"
   vagrant up --provider=aws
 
+  vagrant ssh -c 'sudo chown -R ubuntu ~/.bosh_config ~/tmp; ssh-keygen -N "" -f "/home/ubuntu/.ssh/id_rsa" '
+
   git add deployments/${name}
   git commit -a -m "[${name}] New bosh-lite added"
   git push origin master
@@ -85,7 +87,7 @@ target() {
   checkenv
   name=$1
   if [[ "${name}X" == "X" ]]; then
-    echo "USAGE: boss-lite new NAME"
+    echo "USAGE: boss-lite target NAME"
     exit 1
   fi
   shift
