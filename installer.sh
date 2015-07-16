@@ -23,10 +23,10 @@ fi
 if [[ "${missing_requirements}" == "1" ]]; then
   exit 1
 fi
-if [[ "$(vagrant -v)" != "Vagrant 1.6.3" ]]; then
-  echo "WEIRD BUT TRUE: You must use Vagrant 1.6.3"
+if [[ "$(vagrant -v)" != "Vagrant 1.6.3" && "$(vagrant -v)" != "Vagrant 1.6.5" ]]; then
+  echo "WEIRD BUT TRUE: You must use Vagrant 1.6.3 or 1.6.5"
   echo "Learn more: https://github.com/cloudfoundry/bosh-lite/issues/235"
-  echo "Download: https://www.vagrantup.com/download-archive/v1.6.3.html"
+  echo "Download: https://www.vagrantup.com/download-archive/v1.6.5.html"
   exit 1
 fi
 
