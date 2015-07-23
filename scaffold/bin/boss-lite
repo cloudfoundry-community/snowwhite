@@ -82,7 +82,17 @@ deployments() {
 }
 
 list() {
-  deployments
+  for deployment in $(deployments); do
+    cd $ROOT
+    cd $(dir $deployment)
+    if [[ ! -f ip ]]; then
+      # some old deployments might be missing 'ip' file
+      IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
+      echo ${IP} > ip
+    fi
+    ip=$(cat ip)
+    echo $deployment $ip
+  done
 }
 
 status() {
