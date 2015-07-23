@@ -4,6 +4,7 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}/..
+ROOT=$(pwd)
 source .envrc
 
 set -e
@@ -116,6 +117,19 @@ target() {
   bosh target ${IP} ${name}
 }
 
+# show the directory of Vagrantfile
+dir() {
+  checkenv
+  name=$1
+  if [[ "${name}X" == "X" ]]; then
+    echo "USAGE: boss-lite cd NAME"
+    exit 1
+  fi
+  shift
+  path=${ROOT}/${base_path}/${name}
+  echo $path
+}
+
 ssh() {
   checkenv
   name=$1
@@ -162,9 +176,9 @@ update() {
   git commit -a -m "update boss-lite CLI"
 }
 
-if [[ $1 =~ ^(new|target|list|status|deployments|ssh|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|target|dir|list|status|deployments|ssh|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, target, list, status, ssh, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, target, dir, list, status, ssh, destroy, update" >&2
   exit 1
 fi

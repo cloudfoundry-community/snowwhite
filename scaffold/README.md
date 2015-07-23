@@ -12,6 +12,7 @@ Example commands are:
 ```
 boss-lite new drnic
 boss-lite target drnic
+boss-lite dir drnic
 boss-lite list
 boss-lite ssh drnic
 boss-lite destroy drnic [-f]

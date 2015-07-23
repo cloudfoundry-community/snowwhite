@@ -83,6 +83,15 @@ The output might look like:
 Target set to `Bosh Lite Director'
 ```
 
+### Directory of a bosh-lite
+
+```
+boss-lite dir drnic
+cd $(boss-lite dir drnic)
+```
+
+The latter will change the terminal path into the path of the bosh-lite's `Vagrantfile` and other files.
+
 ### List bosh-lites
 
 To get a list of available bosh-lites:
