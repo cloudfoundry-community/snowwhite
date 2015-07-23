@@ -66,6 +66,8 @@ new() {
   git push origin master
 
   IP=$(vagrant ssh-config | grep HostName | awk '{print $2}')
+  echo ${IP} > ip
+
   set -x
   yes admin | bosh target ${IP} ${name}
   bosh -t ${name} upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
