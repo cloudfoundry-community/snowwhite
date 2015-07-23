@@ -92,12 +92,27 @@ cd $(boss-lite dir drnic)
 
 The latter will change the terminal path into the path of the bosh-lite's `Vagrantfile` and other files.
 
+### IP of a bosh-lite
+
+```
+boss-lite ip drnic
+```
+
+Would return the current IP.
+
 ### List bosh-lites
 
-To get a list of available bosh-lites:
+To get a list of available bosh-lites including their IP:
 
 ```
 boss-lite list
+```
+
+Would return something like:
+
+```
+drnic 54.147.193.212
+other 54.147.192.100
 ```
 
 ### SSH into bosh-lite and into deployment vms
