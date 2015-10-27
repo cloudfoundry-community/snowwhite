@@ -174,6 +174,22 @@ ssh() {
   vagrant ssh $@
 }
 
+# ssh via mosh
+sshm() {
+  checkenv
+  name=$1
+  if [[ "${name}X" == "X" ]]; then
+    echo "USAGE: boss-lite mosh NAME"
+    exit 1
+  fi
+  shift
+  path=${base_path}/${name}
+  cd ${path}
+  host=$(boss-lite ip ${name})
+  ssh-add sshkeys/bosh-lites.pem
+  mosh "ubuntu@${host}" $@
+}
+
 destroy() {
   checkenv
   checkgit
@@ -207,9 +223,9 @@ update() {
   git commit -a -m "update boss-lite CLI"
 }
 
-if [[ $1 =~ ^(new|target|ip|dir|list|status|deployments|ssh|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|target|ip|dir|list|status|deployments|ssh|sshm|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, target, ip, dir, list, status, ssh, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, target, ip, dir, list, status, ssh, sshm, destroy, update" >&2
   exit 1
 fi
