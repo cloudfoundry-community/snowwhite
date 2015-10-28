@@ -1,0 +1,239 @@
+#!/usr/bin/env bash
+
+# This is the parent script for all helper commands
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+cd ${DIR}/..
+ROOT=$(pwd)
+source .envrc
+
+set -e
+
+snowwhite_repo=${snowwhite_repo:-"https://github.com/cloudfoundry-community/snowwhite.git"}
+snowwhite_branch=${snowwhite_branch:-"master"}
+bosh_lite_repo=${bosh_lite_repo:-"https://github.com/cloudfoundry/bosh-lite.git"}
+bosh_lite_branch=${bosh_lite_branch:-"master"}
+
+base_path="deployments"
+
+checkenv() {
+  if [[ ! -f ${BOSH_LITE_PRIVATE_KEY} ]]; then
+    echo "\$BOSH_LITE_PRIVATE_KEY does not exist: $BOSH_LITE_PRIVATE_KEY"
+    exit 1
+  fi
+  relative_private_key="${PWD}/${BOSH_LITE_PRIVATE_KEY##${PWD}}"
+  if [[ ! -f ${relative_private_key} ]]; then
+    echo "\$BOSH_LITE_PRIVATE_KEY is not within this project: $BOSH_LITE_PRIVATE_KEY"
+    exit 1
+  fi
+}
+
+checkgit() {
+  if [[ -z "$(git config --global user.name)" ]]; then
+    echo -n "Enter your name (for git commits): "; read git_user_name
+    git config --global user.name "$git_user_name"
+  fi
+
+  if [[ -z "$(git config --global user.email)" ]]; then
+    echo -n "Enter your email (for git commits): "; read git_user_email
+    git config --global user.email $git_user_email
+  fi
+}
+
+new() {
+  checkenv
+  checkgit
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite new NAME"
+    exit 1
+  fi
+
+  shift
+  path=${base_path}/${name}
+  mkdir -p ${path}
+  cp bosh-lite/Vagrantfile ${path}/
+  cp .envrc ${path}/
+  ln -s ../../sshkeys ${path}/sshkeys
+  cd ${path}
+  direnv allow
+
+  export BOSH_LITE_NAME="bosh-lite-${name}"
+  vagrant up --provider=aws
+
+  vagrant ssh -c 'sudo chown -R ubuntu ~/.bosh_config ~/tmp; ssh-keygen -N "" -f "/home/ubuntu/.ssh/id_rsa" '
+
+  git add .
+  git commit -a -m "[${name}] New bosh-lite added"
+  git push origin master
+
+  IP=$(vagrant ssh-config | awk '/HostName/{print $2}')
+  echo ${IP} > ip
+
+  set -x
+  yes admin | bosh target ${IP} ${name}
+  bosh -t ${name} upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+}
+
+deployments() {
+  if [[ -d deployments ]]; then
+    ls deployments
+  else
+    echo
+  fi
+}
+
+list() {
+  for deployment in $(deployments); do
+    cd $ROOT
+    cd $(dir $deployment)
+    if [[ ! -f ip ]]; then
+      # some old deployments might be missing 'ip' file
+      IP=$(vagrant ssh-config | awk '/HostName/{print $2}')
+      echo ${IP} > ip
+    fi
+
+    ip=$(cat ip)
+    echo $deployment $ip
+  done
+}
+
+status() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    for path in deployments/*; do
+      [[ -d "${path}" ]] || continue # if not a directory, skip
+      echo Checking $(basename ${path})
+      cd ${path}
+      vagrant status
+      cd -
+    done
+  else
+    cd deployments/${name}
+    vagrant status
+  fi
+}
+
+# bosh target <ip> <name>
+target() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite target NAME"
+    exit 1
+  fi
+
+  shift
+  path=${ROOT}/${base_path}/${name}
+  cd ${path}
+
+  IP=$(ip $name)
+  set -x
+  bosh target ${IP} ${name}
+}
+
+# show the directory of Vagrantfile
+dir() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite cd NAME"
+    exit 1
+  fi
+  shift
+  path=${ROOT}/${base_path}/${name}
+  echo $path
+}
+
+ip() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite cd NAME"
+    exit 1
+  fi
+
+  shift
+  path=${ROOT}/${base_path}/${name}
+  cd ${path}
+
+  if [[ ! -f ip ]]; then
+    # some old deployments might be missing 'ip' file
+    IP=$(vagrant ssh-config | awk '/HostName/{print $2}')
+    echo ${IP} > ip
+  fi
+  cat ip
+}
+
+ssh() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite ssh NAME"
+    exit 1
+  fi
+
+  shift
+  path=${base_path}/${name}
+  cd ${path}
+  vagrant ssh $@
+}
+
+# ssh via mosh
+sshm() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite mosh NAME"
+    exit 1
+  fi
+
+  shift
+  path=${base_path}/${name}
+  cd ${path}
+  host=$(snowwhite ip ${name})
+  ssh-add sshkeys/bosh-lites.pem
+  mosh "ubuntu@${host}" $@
+}
+
+destroy() {
+  checkenv
+  checkgit
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite destroy NAME"
+    exit 1
+  fi
+
+  shift
+  path=${base_path}/${name}
+  if [[ ! -d ${path} ]]; then
+    echo "USAGE: snowwhite destroy NAME"
+    exit 1
+  fi
+  pushd ${path}
+  vagrant destroy $@
+  popd
+
+  git rm -rf ${path}
+  git commit -a -m "[${name}] bosh-lite destroyed"
+  git push origin master
+}
+
+update() {
+  git subtree pull --prefix snowwhite $snowwhite_repo $snowwhite_branch --squash \
+    -m "Update snowwhite scripts"
+  git subtree pull --prefix bosh-lite $bosh_lite_repo $bosh_lite_branch --squash \
+    -m "Update bosh-lite scripts"
+
+  cp snowwhite/scaffold/bin/* bin/
+  git commit -a -m "update snowwhite CLI"
+}
+
+if [[ $1 =~ ^(new|target|ip|dir|list|status|deployments|ssh|sshm|destroy|update|checkenv)$ ]]; then
+  "$@"
+else
+  echo "Invalid subcommand: $1 - available: new, target, ip, dir, list, status, ssh, sshm, destroy, update" >&2
+  exit 1
+fi
