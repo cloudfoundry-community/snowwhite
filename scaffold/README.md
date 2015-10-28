@@ -5,7 +5,7 @@ This repository includes scripts to create [bosh-lite](https://github.com/cloudf
 
 This repository contains a `deployments` subfolder. Inside it is one subfolder for each [bosh-lite](https://github.com/cloudfoundry/bosh-lite/).
 
-To create new bosh-lite or destroy a bosh-lite, see the [Usage instructions](https://github.com/cloudfoundry-community/#usage) for [snowwhite](https://github.com/cloudfoundry-community/snowwhite).
+To create new bosh-lite or destroy a bosh-lite, see the [Usage instructions](https://github.com/cloudfoundry-community/snowwhite#usage) for [snowwhite](https://github.com/cloudfoundry-community/snowwhite).
 
 Example commands are:
 
@@ -25,7 +25,7 @@ Read the [Usage instructions](https://github.com/cloudfoundry-community/#usage) 
 Global CLI
 ----------
 
-You can use the `` CLI from anywhere if you add this project's `bin` into your `$PATH`.
+You can use the `snowwhite` CLI from anywhere if you add this project's `bin` into your `$PATH`.
 
 Add the following into your `~/.bashrc` or `~/.zshrc`, etc:
 

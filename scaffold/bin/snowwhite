@@ -2,9 +2,8 @@
 
 # This is the parent script for all helper commands
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd ${DIR}/..
-ROOT=$(pwd)
+cd "$(dirname "$( dirname "${BASH_SOURCE[0]}" )" )"
+rootPath=${PWD} # The root path is one up from the script's parent directory.
 source .envrc
 
 set -e
@@ -85,7 +84,7 @@ deployments() {
 
 list() {
   for deployment in $(deployments); do
-    cd $ROOT
+    cd $rootPath
     cd $(dir $deployment)
     if [[ ! -f ip ]]; then
       # some old deployments might be missing 'ip' file
@@ -125,7 +124,7 @@ target() {
   fi
 
   shift
-  path=${ROOT}/${base_path}/${name}
+  path=${rootPath}/${base_path}/${name}
   cd ${path}
 
   IP=$(ip $name)
@@ -142,7 +141,7 @@ dir() {
     exit 1
   fi
   shift
-  path=${ROOT}/${base_path}/${name}
+  path=${rootPath}/${base_path}/${name}
   echo $path
 }
 
@@ -155,7 +154,7 @@ ip() {
   fi
 
   shift
-  path=${ROOT}/${base_path}/${name}
+  path=${rootPath}/${base_path}/${name}
   cd ${path}
 
   if [[ ! -f ip ]]; then

@@ -61,7 +61,7 @@ git add .
 git commit -m "Initial scaffold for snowwhite project."
 
 echo <<EOS
-Congrats! You're snowwhite project is ready!
+Congrats! Your snowwhite project is ready!
 
 NEXT STEPS
 
