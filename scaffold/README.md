@@ -5,32 +5,32 @@ This repository includes scripts to create [bosh-lite](https://github.com/cloudf
 
 This repository contains a `deployments` subfolder. Inside it is one subfolder for each [bosh-lite](https://github.com/cloudfoundry/bosh-lite/).
 
-To create new bosh-lite or destroy a bosh-lite, see the [Usage instructions](https://github.com/cloudfoundry-community/boss-lite#usage) for [boss-lite](https://github.com/cloudfoundry-community/boss-lite).
+To create new bosh-lite or destroy a bosh-lite, see the [Usage instructions](https://github.com/cloudfoundry-community/snowwhite#usage) for [snowwhite](https://github.com/cloudfoundry-community/snowwhite).
 
 Example commands are:
 
 ```
-boss-lite new drnic
-boss-lite target drnic
-boss-lite dir drnic
-boss-lite ip drnic
-boss-lite list
-boss-lite ssh drnic
-boss-lite destroy drnic [-f]
-boss-lite update
+snowwhite new drnic
+snowwhite target drnic
+snowwhite dir drnic
+snowwhite ip drnic
+snowwhite list
+snowwhite ssh drnic
+snowwhite destroy drnic [-f]
+snowwhite update
 ```
 
-Read the [Usage instructions](https://github.com/cloudfoundry-community/boss-lite#usage) for more information; especially after updating.
+Read the [Usage instructions](https://github.com/cloudfoundry-community/#usage) for more information; especially after updating.
 
 Global CLI
 ----------
 
-You can use the `boss-lite` CLI from anywhere if you add this project's `bin` into your `$PATH`.
+You can use the `snowwhite` CLI from anywhere if you add this project's `bin` into your `$PATH`.
 
 Add the following into your `~/.bashrc` or `~/.zshrc`, etc:
 
 ```
-export PATH=$PATH:/path/to/bosh-lites/bin
+export PATH="$PATH:/path/to/bosh-lites/bin"
 ```
 
 And restart your session.

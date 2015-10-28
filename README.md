@@ -1,7 +1,7 @@
-boss-lite
+snowwhite
 =========
 
-Manage multiple [bosh-lite](https://github.com/cloudfoundry/bosh-lite/) deployments (running on AWS, not just one on your laptop) for your entire organization. Who's the boss? You're the boss. And that person over there.
+Snow White loves to manage your seven (or more!) little [bosh-lite](https://github.com/cloudfoundry/bosh-lite/) deployments (running on AWS, not just one on your laptop) for your entire organization. 
 
 This project is very handy when you:
 
@@ -17,15 +17,16 @@ Requirements
 ------------
 
 -	AWS account and API credentials
--	Ruby to run `bosh` CLI, and `bundler` rubygem
--	http://vagrantup.com/ to provision AWS bosh-lite
--	Vagrant AWS plugin
+-	Ruby, in order to use the `bosh` CLI, and `bundler` rubygem commands.
+-	[Vagrant](http://vagrantup.com/) to provision an AWS bosh-lite
+-	Vagrant AWS plugin (installed by the installer script below)
 
 	```
 	vagrant plugin install vagrant-aws
 	```
 
--	http://direnv.net/ to add the `boss-lite` helper CLI into the `$PATH`
+-	http://direnv.net/ to add the `snowwhite` helper CLI into the `$PATH` upon 
+  entry into the directory.
 
 Installation
 ------------
@@ -33,16 +34,15 @@ Installation
 To get started, run the following command in your work folder to generate a new scaffold:
 
 ```
-curl https://raw.githubusercontent.com/cloudfoundry-community/boss-lite/master/installer.sh | bash
+curl https://raw.githubusercontent.com/cloudfoundry-community/snowwhite/master/installer.sh | bash
 ```
 
 Or clone this repo somewhere, then invoke the installer script from the folder where you want to create a new scaffold to store all your bosh-lite work folders:
 
 ```
-cd /tmp
-git clone https://github.com/cloudfoundry-community/boss-lite.git
+git clone https://github.com/cloudfoundry-community/snowwhite.git /tmp/snowwhite
 cd ~/workspace
-/tmp/boss-lite/installer.sh
+/tmp/snowwhite/installer.sh
 ```
 
 All subsequent operations are performed within the generated project.
@@ -52,10 +52,10 @@ Usage
 
 ### New bosh-lite
 
-Run `boss-lite new <name>` to create a new bosh-lite VM.
+Run `snowwhite new <name>` to create a new bosh-lite VM.
 
 ```
-boss-lite new drnic
+snowwhite new drnic
 ```
 
 Once the bosh-lite is deployed, an Ubuntu stemcell is uploaded for you.
@@ -73,7 +73,7 @@ $ bosh targets
 ### Target a bosh-lite
 
 ```
-boss-lite target drnic
+snowwhite target drnic
 ```
 
 The output might look like:
@@ -86,8 +86,8 @@ Target set to `Bosh Lite Director'
 ### Directory of a bosh-lite
 
 ```
-boss-lite dir drnic
-cd $(boss-lite dir drnic)
+snowwhite dir drnic
+cd $(snowwhite dir drnic)
 ```
 
 The latter will change the terminal path into the path of the bosh-lite's `Vagrantfile` and other files.
@@ -95,7 +95,7 @@ The latter will change the terminal path into the path of the bosh-lite's `Vagra
 ### IP of a bosh-lite
 
 ```
-boss-lite ip drnic
+snowwhite ip drnic
 ```
 
 Would return the current IP.
@@ -105,7 +105,7 @@ Would return the current IP.
 To get a list of available bosh-lites including their IP:
 
 ```
-boss-lite list
+snowwhite list
 ```
 
 Would return something like:
@@ -123,7 +123,7 @@ Why? If you are used to using bosh-lite on your laptop then you will be familiar
 
 So to SSH into containers:
 
-1.	`boss-lite ssh <name>`; and then inside the bosh-lite host VM:
+1.	`snowwhite ssh <name>`; and then inside the bosh-lite host VM:
 2.	`bosh download manifest <deployment> <deployment>.yml`
 3.	`bosh deployment <deployment>.yml`
 4.	`bosh ssh`
@@ -131,15 +131,16 @@ So to SSH into containers:
 ### Destroy bosh-lite
 
 ```
-boss-lite destroy drnic [-f]
+snowwhite destroy drnic [-f]
 ```
 
 ### Upgrades
 
-As new features/scripts/bug fixes are added to this `boss-lite` repository, your own `bosh-lites` project folder can easily update the scripts:
+As new features/scripts/bug fixes are added to this `snowwhite` repository, your own `bosh-lites` project folder can easily update the scripts:
 
 ```
-boss-lite update
+snowwhite update
 ```
 
-This invokes the correct `git subtree pull` to update the `boss-lite` subfolder in your project.
+This invokes the correct `git subtree pull` to update the `snowwhite` subfolder in your project.
+
