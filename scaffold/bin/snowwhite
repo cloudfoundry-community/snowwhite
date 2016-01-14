@@ -192,8 +192,21 @@ sshm() {
   path=${base_path}/${name}
   cd ${path}
   host=$(snowwhite ip ${name})
-  ssh-add sshkeys/bosh-lites.pem
+  ssh-add sshkeys/*
   mosh "ubuntu@${host}" $@
+}
+
+boshssh() {
+  checkenv
+  name=$1
+  if [[ -z "${name}" ]]; then
+    echo "USAGE: snowwhite boshssh NAME"
+    exit 1
+  fi
+  shift
+  target $name
+  host=$(snowwhite ip ${name})
+  bosh ssh --gateway_host ${host} --gateway_user=ubuntu --gateway_identity_file=sshkeys/bosh-lites.pem --default_password a --strict_host_key_checking no $@
 }
 
 destroy() {
@@ -230,9 +243,9 @@ update() {
   git commit -a -m "update snowwhite CLI"
 }
 
-if [[ $1 =~ ^(new|target|ip|dir|list|status|deployments|ssh|sshm|destroy|update|checkenv)$ ]]; then
+if [[ $1 =~ ^(new|target|ip|dir|list|status|deployments|ssh|sshm|boshssh|destroy|update|checkenv)$ ]]; then
   "$@"
 else
-  echo "Invalid subcommand: $1 - available: new, target, ip, dir, list, status, ssh, sshm, destroy, update" >&2
+  echo "Invalid subcommand: $1 - available: new, target, ip, dir, list, status, ssh, sshm, boshssh, destroy, update" >&2
   exit 1
 fi
